@@ -14,12 +14,11 @@ public class DominoUtil {
     public static final Predicate<Pedra> jogavel(Mesa mesa){
         return mesa.taVazia() 
                 ? p -> {return true;}
-                : p -> jogavel(p, mesa);
+                : p -> jogavel(p, mesa.getNumeroEsquerda(), mesa.getNumeroDireita());
     }
     
     public static final boolean jogavel(Pedra p, Mesa mesa){
-        return mesa.taVazia()
-                || jogavel(p, p.getPrimeiroNumero(), p.getSegundoNumero());
+        return jogavel(mesa).test(p);
     }
 
     public static final boolean jogavel(Pedra p, Numero n1, Numero n2){
