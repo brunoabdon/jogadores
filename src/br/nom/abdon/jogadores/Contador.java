@@ -4,10 +4,10 @@ import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.StringJoiner;
+import java.util.function.Consumer;
 
 import br.nom.abdon.domino.Numero;
 import br.nom.abdon.domino.Pedra;
-import java.util.function.Consumer;
 
 /**
  *
@@ -51,7 +51,7 @@ public class Contador implements Comparable<Contador> {
         }
     }
 
-    public Contador projete(Pedra pedra) {
+    public Contador projete(final Pedra pedra) {
         System.out.println("projetando jogavel " + pedra);
         Contador contador = new Contador(this.reg.clone());
         contador.contabilizaJogada(pedra);
@@ -69,6 +69,19 @@ public class Contador implements Comparable<Contador> {
             result = (int) (this.conta(i) - that.conta(i));
         }
         
+        if(result == 0){
+            System.out.println("Vai na pedra");
+            final Pedra pedraAqui = this.getPedra();
+            final Pedra pedraAli = that.getPedra();
+
+            final boolean carrocaAqui = pedraAqui.isCarroca();
+            final boolean carrocaAli = pedraAli.isCarroca();
+            
+            result = carrocaAqui != carrocaAli 
+                ? carrocaAqui ? -1 : 1
+                : pedraAli.compareTo(pedraAqui);
+        }
+        
         System.out.println(this);    
         System.out.println(that);    
         System.out.println(result);    
@@ -76,7 +89,7 @@ public class Contador implements Comparable<Contador> {
         return result;
     }
 
-    private long conta(int i) {
+    private long conta(final int i) {
         return this.reg.values().stream().filter(x -> {return x == i;}).count();
     }
     
