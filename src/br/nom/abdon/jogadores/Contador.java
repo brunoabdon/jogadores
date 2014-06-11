@@ -7,6 +7,7 @@ import java.util.StringJoiner;
 
 import br.nom.abdon.domino.Numero;
 import br.nom.abdon.domino.Pedra;
+import java.util.function.Consumer;
 
 /**
  *
@@ -27,8 +28,7 @@ public class Contador implements Comparable<Contador> {
     }
     
     private void contabiliza(final Pedra pedra) {
-        contabiliza(pedra.getPrimeiroNumero());
-        contabiliza(pedra.getSegundoNumero());
+        prosNumero(this::contabiliza, pedra);
     }
 
     private void contabiliza(final Numero numero){
@@ -37,21 +37,22 @@ public class Contador implements Comparable<Contador> {
 
     private void contabilizaJogada(final Pedra pedra) {
         this.pedra = pedra;
-        contabilizaJogada(this.pedra.getPrimeiroNumero());
-        contabilizaJogada(this.pedra.getSegundoNumero());
-//        System.out.println(this);
+        prosNumero(this::contabilizaJogada, pedra);
     }
     
     private void contabilizaJogada(final Numero numero) {
-        
-        int antes = this.reg.get(numero);
         this.reg.compute(numero, (n,v) -> {return v-1;});
-        
-//        System.out.println(numero + " foi de " + antes + " pra " + this.reg.get(numero));
-
+    }
+    
+    private void prosNumero(Consumer<Numero> consumer, Pedra pedra){
+        consumer.accept(pedra.getPrimeiroNumero());
+        if(!pedra.isCarroca()){
+            consumer.accept(pedra.getSegundoNumero());
+        }
     }
 
     public Contador projete(Pedra pedra) {
+        System.out.println("projetando jogavel " + pedra);
         Contador contador = new Contador(this.reg.clone());
         contador.contabilizaJogada(pedra);
         return contador;
@@ -68,6 +69,10 @@ public class Contador implements Comparable<Contador> {
             result = (int) (this.conta(i) - that.conta(i));
         }
         
+        System.out.println(this);    
+        System.out.println(that);    
+        System.out.println(result);    
+
         return result;
     }
 
@@ -91,5 +96,4 @@ public class Contador implements Comparable<Contador> {
         
         return "[" + this.pedra + "]" + joiner.toString();
     }
-    
 }
