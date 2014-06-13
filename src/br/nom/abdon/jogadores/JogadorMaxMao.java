@@ -15,6 +15,7 @@ import br.nom.abdon.domino.Pedra;
  */
 public class JogadorMaxMao implements Jogador{
 
+    private Mesa mesa;
     private EnumSet<Pedra> mao;
     private Contador contador;
         
@@ -39,7 +40,7 @@ public class JogadorMaxMao implements Jogador{
     }
 
     @Override
-    public Jogada joga(Mesa mesa) {
+    public Jogada joga() {
         
         final Jogada jogada;
         
@@ -70,7 +71,7 @@ public class JogadorMaxMao implements Jogador{
 
     @Override
     public int vontadeDeComecar() {
-        perguntouSeEuQueriaJogar  = true;
+        perguntouSeEuQueriaJogar = true;
         return 5;
     }
 
@@ -78,5 +79,10 @@ public class JogadorMaxMao implements Jogador{
         mao.remove(pedra);
         return new Jogada(pedra,lado);
 
+    }
+
+    @Override
+    public void sentaNaMesa(Mesa mesa, int cadeira) {
+        this.mesa = mesa;
     }
 }
