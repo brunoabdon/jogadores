@@ -52,7 +52,6 @@ public class Contador implements Comparable<Contador> {
     }
 
     public Contador projete(final Pedra pedra) {
-//        System.out.println("projetando jogavel " + pedra);
         Contador contador = new Contador(this.reg.clone());
         contador.contabilizaJogada(pedra);
         return contador;
@@ -70,7 +69,6 @@ public class Contador implements Comparable<Contador> {
         }
         
         if(result == 0){
-//            System.out.println("Vai na pedra");
             final Pedra pedraAqui = this.getPedra();
             final Pedra pedraAli = that.getPedra();
 
@@ -82,10 +80,6 @@ public class Contador implements Comparable<Contador> {
                 : pedraAli.compareTo(pedraAqui);
         }
         
-//        System.out.println(this);    
-//        System.out.println(that);    
-//        System.out.println(result);    
-
         return result;
     }
 
