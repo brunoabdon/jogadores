@@ -1,4 +1,4 @@
-package br.nom.abdon.jogadores;
+package org.github.brunoabdon.jogadores;
 
 import java.util.Comparator;
 import java.util.EnumSet;
@@ -65,7 +65,7 @@ public class JogadorMaxMao implements Jogador{
 
     private Jogada joga(Pedra pedra, Lado lado){
         this.mao.remove(pedra);
-        return new Jogada(pedra,lado);
+        return Jogada.jogada(pedra,lado);
     }
 
     @Override
