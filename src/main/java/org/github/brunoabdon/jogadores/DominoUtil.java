@@ -1,4 +1,4 @@
-package br.nom.abdon.jogadores;
+package org.github.brunoabdon.jogadores;
 
 import java.util.function.Predicate;
 
