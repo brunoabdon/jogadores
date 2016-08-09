@@ -1,14 +1,14 @@
-package org.github.brunoabdon.jogadores;
+package com.github.abdonia.jogadores;
 
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.function.Function;
 
-import br.nom.abdon.domino.Jogada;
-import br.nom.abdon.domino.Jogador;
-import br.nom.abdon.domino.Lado;
-import br.nom.abdon.domino.Mesa;
-import br.nom.abdon.domino.Pedra;
+import com.github.abdonia.domino.Jogada;
+import com.github.abdonia.domino.Jogador;
+import com.github.abdonia.domino.Lado;
+import com.github.abdonia.domino.Mesa;
+import com.github.abdonia.domino.Pedra;
 
 /**
  * @author bruno
@@ -23,7 +23,7 @@ public class JogadorMaxMao implements Jogador{
     
     private Function<Contador, Jogada> joga;
     
-    private final static Comparator<Contador> comp = Comparator.naturalOrder();
+    private final static Comparator<Contador> COMP = Comparator.naturalOrder();
     
     @Override
     public void recebeMao(Pedra ... pedras) {
@@ -53,8 +53,9 @@ public class JogadorMaxMao implements Jogador{
             : this.mao.stream()
                 .filter(DominoUtil.jogavel(mesa))
                 .map(contador::projete)
-                .min(comp)
-                .map(joga).orElse(Jogada.TOQUE);
+                .min(COMP)
+                .map(joga)
+                .orElse(Jogada.TOQUE);
     }
 
     @Override

@@ -1,10 +1,10 @@
-package org.github.brunoabdon.jogadores;
+package com.github.abdonia.jogadores;
 
 import java.util.function.Predicate;
 
-import br.nom.abdon.domino.Mesa;
-import br.nom.abdon.domino.Numero;
-import br.nom.abdon.domino.Pedra;
+import com.github.abdonia.domino.Mesa;
+import com.github.abdonia.domino.Numero;
+import com.github.abdonia.domino.Pedra;
 
 /**
  *

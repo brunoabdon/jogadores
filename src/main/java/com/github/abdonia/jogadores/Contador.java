@@ -1,4 +1,4 @@
-package org.github.brunoabdon.jogadores;
+package com.github.abdonia.jogadores;
 
 import java.util.Comparator;
 import java.util.EnumMap;
@@ -6,8 +6,8 @@ import java.util.EnumSet;
 import java.util.StringJoiner;
 import java.util.function.Consumer;
 
-import br.nom.abdon.domino.Numero;
-import br.nom.abdon.domino.Pedra;
+import com.github.abdonia.domino.Numero;
+import com.github.abdonia.domino.Pedra;
 
 /**
  *
