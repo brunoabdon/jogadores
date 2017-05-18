@@ -26,7 +26,7 @@ public class JogadorMaxMao implements Jogador{
     private final static Comparator<Contador> COMP = Comparator.naturalOrder();
     
     @Override
-    public void recebeMao(Pedra ... pedras) {
+    public void recebeMao(final Pedra ... pedras) {
         this.mao = EnumSet.of(
             pedras[0], pedras[1], pedras[2], pedras[3], pedras[4], pedras[5]
         );
@@ -35,10 +35,10 @@ public class JogadorMaxMao implements Jogador{
         
         this.joga = 
             c-> {
-                Pedra p = c.getPedra();
-                Lado l = p.temNumero(mesa.getNumeroEsquerda()) 
-                        ? Lado.ESQUERDO 
-                        : Lado.DIREITO;
+                final Pedra p = c.getPedra();
+                final Lado l = p.temNumero(mesa.getNumeroEsquerda()) 
+                                ? Lado.ESQUERDO 
+                                : Lado.DIREITO;
                 this.contador = c;
                 return joga(p, l);
             };
@@ -64,13 +64,13 @@ public class JogadorMaxMao implements Jogador{
         return 5;
     }
 
-    private Jogada joga(Pedra pedra, Lado lado){
+    private Jogada joga(final Pedra pedra, final Lado lado){
         this.mao.remove(pedra);
         return Jogada.jogada(pedra,lado);
     }
 
     @Override
-    public void sentaNaMesa(Mesa mesa, int cadeira) {
+    public void sentaNaMesa(final Mesa mesa, final int cadeira) {
         this.mesa = mesa;
     }
 }
