@@ -3,8 +3,10 @@ package com.github.abdonia.jogadores;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.StringJoiner;
+import java.util.Map.Entry;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.github.abdonia.domino.Numero;
 import com.github.abdonia.domino.Pedra;
@@ -14,37 +16,43 @@ import com.github.abdonia.domino.Pedra;
  * @author bruno
  */
 public class Contador implements Comparable<Contador> {
+
+    private static final Function<Entry<Numero,Integer>,String> STRINGFY_ENTRY =
+        e -> "<" + e.getKey() + ","  + e.getValue() + ">";
+
+    private static final Comparator<Integer> NATURAL_ORDER =
+        Comparator.naturalOrder();
     
     private final EnumMap<Numero,Integer> reg;
     private Pedra pedra;
     
     public Contador(final EnumSet<Pedra> mao){
         this(new EnumMap<>(Numero.class));
-        mao.stream().forEach((p) -> {contabiliza(p);});
+        mao.stream().forEach(this::contabilizaPedra);
     }
 
-    private Contador(EnumMap<Numero, Integer> mapa) {
+    private Contador(final EnumMap<Numero, Integer> mapa) {
         this.reg = mapa;
     }
     
-    private void contabiliza(final Pedra pedra) {
-        prosNumero(this::contabiliza, pedra);
+    private void contabilizaPedra(final Pedra pedra) {
+        this.prosNumero(this::contabilizaNumero, pedra);
     }
 
-    private void contabiliza(final Numero numero){
+    private void contabilizaNumero(final Numero numero){
         this.reg.merge(numero, 1 , Integer::sum);
     }
 
     private void contabilizaJogada(final Pedra pedra) {
         this.pedra = pedra;
-        prosNumero(this::contabilizaJogada, pedra);
+        this.prosNumero(this::contabilizaJogada, pedra);
     }
     
     private void contabilizaJogada(final Numero numero) {
         this.reg.compute(numero, (n,v) -> {return v-1;});
     }
     
-    private void prosNumero(Consumer<Numero> consumer, Pedra pedra){
+    private void prosNumero(final Consumer<Numero> consumer, final Pedra pedra){
         consumer.accept(pedra.getPrimeiroNumero());
         if(!pedra.isCarroca()){
             consumer.accept(pedra.getSegundoNumero());
@@ -52,17 +60,17 @@ public class Contador implements Comparable<Contador> {
     }
 
     public Contador projete(final Pedra pedra) {
-        Contador contador = new Contador(this.reg.clone());
+        final Contador contador = new Contador(this.reg.clone());
         contador.contabilizaJogada(pedra);
         return contador;
     }
 
     @Override
-    public int compareTo(Contador that) {
-        
-        final Comparator<Integer> naturalOrder = Comparator.naturalOrder();
+    public int compareTo(final Contador that) {
+ 
         int result = 0;
-        final Integer maior = reg.values().stream().max(naturalOrder).get();
+        final Integer maior = 
+            reg.values().parallelStream().max(NATURAL_ORDER).get();
         
         for (int i = 0; i < maior && result == 0; i++) {
             result = (int) (this.conta(i) - that.conta(i));
@@ -79,28 +87,28 @@ public class Contador implements Comparable<Contador> {
                 ? carrocaAqui ? -1 : 1
                 : pedraAli.compareTo(pedraAqui);
         }
-        
+
         return result;
     }
 
     private long conta(final int i) {
-        return this.reg.values().stream().filter(x -> {return x == i;}).count();
+        return 
+            this.reg.values()
+                    .parallelStream()
+                    .filter(x -> {return x == i;})
+                    .count();
     }
-    
+
     public Pedra getPedra(){
         return pedra;
     }
 
     @Override
     public String toString() {
-        
-        StringJoiner joiner = new StringJoiner(",");
-        
-        reg.entrySet().stream().forEach(e -> { 
-            String entstr = "<" + e.getKey() + ","  + e.getValue() + ">";
-            joiner.add(entstr);
-        });
-        
-        return "[" + this.pedra + "]" + joiner.toString();
+        return 
+            reg.entrySet()
+                .stream()
+                .map(STRINGFY_ENTRY)
+                .collect(Collectors.joining(",", "[", "]"));
     }
 }
