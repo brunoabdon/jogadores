@@ -9,6 +9,7 @@ import com.github.abdonia.domino.Jogador;
 import com.github.abdonia.domino.Lado;
 import com.github.abdonia.domino.Mesa;
 import com.github.abdonia.domino.Pedra;
+import com.github.abdonia.domino.Vontade;
 
 /**
  * @author bruno
@@ -26,12 +27,17 @@ public class JogadorMaxMao implements Jogador{
     private final static Comparator<Contador> COMP = Comparator.naturalOrder();
     
     @Override
-    public void recebeMao(final Pedra ... pedras) {
-        this.mao = EnumSet.of(
-            pedras[0], pedras[1], pedras[2], pedras[3], pedras[4], pedras[5]
-        );
+    public void recebeMao(
+            final Pedra pedra1,
+            final Pedra pedra2,
+            final Pedra pedra3,
+            final Pedra pedra4,
+            final Pedra pedra5,
+            final Pedra pedra6) {
         
-        this.contador = new Contador(mao);
+        this.mao = EnumSet.of(pedra1, pedra2, pedra3, pedra4, pedra5, pedra6);
+        
+        this.contador = new Contador(this.mao);
         
         this.joga = 
             c-> {
@@ -59,9 +65,9 @@ public class JogadorMaxMao implements Jogador{
     }
 
     @Override
-    public int vontadeDeComecar() {
+    public Vontade vontadeDeComecar() {
         perguntouSeEuQueriaJogar = true;
-        return 5;
+        return Vontade.TANTO_FAZ;
     }
 
     private Jogada joga(final Pedra pedra, final Lado lado){
