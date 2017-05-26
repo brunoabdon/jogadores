@@ -87,7 +87,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.abdonia</groupId>
+            <groupId>com.github.abdonia.domino</groupId>
             <artifactId>domino</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
