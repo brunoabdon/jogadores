@@ -1,6 +1,5 @@
 package com.github.abdonia.jogadores;
 
-import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.function.Function;
 
@@ -24,8 +23,6 @@ public class JogadorMaxMao implements Jogador{
     
     private Function<Contador, Jogada> joga;
     
-    private final static Comparator<Contador> COMP = Comparator.naturalOrder();
-    
     @Override
     public void recebeMao(
             final Pedra pedra1,
@@ -36,7 +33,7 @@ public class JogadorMaxMao implements Jogador{
             final Pedra pedra6) {
         
         this.mao = EnumSet.of(pedra1, pedra2, pedra3, pedra4, pedra5, pedra6);
-        
+
         this.contador = new Contador(this.mao);
         
         this.joga = 
@@ -56,10 +53,10 @@ public class JogadorMaxMao implements Jogador{
     public Jogada joga() {
         return mesa.getPedras().isEmpty() && !perguntouSeEuQueriaJogar
             ? joga(DominoUtil.aMaiorCarroca(mao),Lado.ESQUERDO)
-            : this.mao.stream()
+            : this.mao.parallelStream()
                 .filter(DominoUtil.jogavel(mesa))
                 .map(contador::projete)
-                .min(COMP)
+                .min(Contador::compareTo)
                 .map(joga)
                 .orElse(Jogada.TOQUE);
     }

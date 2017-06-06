@@ -1,6 +1,5 @@
 package com.github.abdonia.jogadores;
 
-import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map.Entry;
@@ -13,16 +12,13 @@ import com.github.abdonia.domino.Pedra;
 
 /**
  *
- * @author bruno
+ * @author Bruno Abdon
  */
 public class Contador implements Comparable<Contador> {
 
     private static final Function<Entry<Numero,Integer>,String> STRINGFY_ENTRY =
         e -> "<" + e.getKey() + ","  + e.getValue() + ">";
 
-    private static final Comparator<Integer> NATURAL_ORDER =
-        Comparator.naturalOrder();
-    
     private final EnumMap<Numero,Integer> reg;
     private Pedra pedra;
     
@@ -70,7 +66,7 @@ public class Contador implements Comparable<Contador> {
  
         int result = 0;
         final Integer maior = 
-            reg.values().parallelStream().max(NATURAL_ORDER).get();
+            reg.values().parallelStream().max(Integer::compare).get();
         
         for (int i = 0; i < maior && result == 0; i++) {
             result = (int) (this.conta(i) - that.conta(i));
@@ -82,7 +78,7 @@ public class Contador implements Comparable<Contador> {
 
             final boolean carrocaAqui = pedraAqui.isCarroca();
             final boolean carrocaAli = pedraAli.isCarroca();
-            
+
             result = carrocaAqui != carrocaAli 
                 ? carrocaAqui ? -1 : 1
                 : pedraAli.compareTo(pedraAqui);
