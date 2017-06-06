@@ -14,7 +14,7 @@ import com.github.abdonia.domino.Pedra;
 public class DominoUtil {
 
     public static final Predicate<Pedra> jogavel(final Mesa mesa){
-        return mesa.taVazia() 
+        return mesa.getPedras().isEmpty()
             ? p -> {return true;}
             : p -> jogavel(p,mesa.getNumeroEsquerda(),mesa.getNumeroDireita());
     }

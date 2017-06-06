@@ -54,7 +54,7 @@ public class JogadorMaxMao implements Jogador{
 
     @Override
     public Jogada joga() {
-        return mesa.taVazia() && !perguntouSeEuQueriaJogar
+        return mesa.getPedras().isEmpty() && !perguntouSeEuQueriaJogar
             ? joga(DominoUtil.aMaiorCarroca(mao),Lado.ESQUERDO)
             : this.mao.stream()
                 .filter(DominoUtil.jogavel(mesa))
