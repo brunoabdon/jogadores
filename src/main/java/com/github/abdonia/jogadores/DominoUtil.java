@@ -4,28 +4,20 @@ import java.util.Collection;
 import java.util.function.Predicate;
 
 import com.github.abdonia.domino.Mesa;
-import com.github.abdonia.domino.Numero;
 import com.github.abdonia.domino.Pedra;
 
 /**
- *
- * @author bruno
+ * Métodos auxiliares.
+ * 
+ * @author Bruno Abdon
  */
 public class DominoUtil {
 
     public static final Predicate<Pedra> jogavel(final Mesa mesa){
         return mesa.getPedras().isEmpty()
-            ? p -> {return true;}
-            : p -> jogavel(p,mesa.getNumeroEsquerda(),mesa.getNumeroDireita());
-    }
-    
-    public static final boolean jogavel(final Pedra p, final Mesa mesa){
-        return jogavel(mesa).test(p);
-    }
-
-    public static final boolean jogavel(
-            final Pedra p, final Numero n1, final Numero n2){
-        return p.temNumero(n1) || p.temNumero(n2);
+            ? p -> true
+            : p -> p.temNumero(mesa.getNumeroEsquerda()) 
+                    || p.temNumero(mesa.getNumeroDireita());
     }
 
     public static Pedra aMaiorCarroca(final Collection<Pedra> pedras) {
