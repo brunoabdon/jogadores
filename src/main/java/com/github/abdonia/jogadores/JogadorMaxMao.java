@@ -62,14 +62,14 @@ public class JogadorMaxMao implements Jogador{
     }
 
     @Override
-    public Vontade vontadeDeComecar() {
+    public Vontade getVontadeDeComecar() {
         perguntouSeEuQueriaJogar = true;
         return Vontade.TANTO_FAZ;
     }
 
     private Jogada joga(final Pedra pedra, final Lado lado){
         this.mao.remove(pedra);
-        return Jogada.jogada(pedra,lado);
+        return Jogada.de(pedra,lado);
     }
 
     @Override
